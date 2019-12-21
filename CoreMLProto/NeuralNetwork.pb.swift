@@ -6196,7 +6196,7 @@ struct CoreML_Specification_SimpleRecurrentLayerParams {
 ///   (``[outputVectorSize]``)
 /// - ``f()``, ``g()`` are activations
 /// - ``clip()`` is a function that constrains values between ``[-50.0, 50.0]``
-/// - ``⊙`` denotes the elementwise product of matrices
+/// - `` `` denotes the elementwise product of matrices
 struct CoreML_Specification_GRULayerParams {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -6394,7 +6394,7 @@ struct CoreML_Specification_GRULayerParams {
 ///   (``[outputVectorSize]``)
 /// - ``f()``, ``g()``, ``h()`` are activations
 /// - ``clip()`` is a function that constrains values between ``[-50.0, 50.0]``
-/// - ``⊙`` denotes the elementwise product of matrices
+/// - `` `` denotes the elementwise product of matrices
 struct CoreML_Specification_LSTMParams {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
