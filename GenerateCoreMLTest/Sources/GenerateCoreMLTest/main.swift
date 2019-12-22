@@ -27,6 +27,34 @@ let coreModel = CoreML_Specification_Model.with {
             $0.userDefined = ["coremltoolsVersion" : "3.1"]
         }
     }
+    $0.neuralNetwork = CoreML_Specification_NeuralNetwork.with {
+        $0.layers = [CoreML_Specification_NeuralNetworkLayer.with {
+            $0.name = "Identity"
+            $0.input = ["dense_input"]
+            $0.output = ["Identity"]
+            $0.inputTensor = [CoreML_Specification_Tensor.with {
+                $0.rank = 2
+                $0.dimValue = [1, 1]
+            }]
+            $0.outputTensor = [CoreML_Specification_Tensor.with {
+                $0.rank = 2
+                $0.dimValue = [1, 1]
+            }]
+            $0.batchedMatmul = CoreML_Specification_BatchedMatMulLayerParams.with {
+                $0.weightMatrixFirstDimension = 1
+                $0.weightMatrixSecondDimension = 1
+                $0.hasBias_p = true
+                $0.weights = CoreML_Specification_WeightParams.with {
+                    $0.floatValue = [1.0]
+                }
+                $0.bias = CoreML_Specification_WeightParams.with {
+                    $0.floatValue = [1.0]
+                }
+            }
+        }]
+        $0.arrayInputShapeMapping = CoreML_Specification_NeuralNetworkMultiArrayShapeMapping.exactArrayMapping
+        $0.imageInputShapeMapping = CoreML_Specification_NeuralNetworkImageShapeMapping.rank4ImageMapping
+    }
 }
 
 
