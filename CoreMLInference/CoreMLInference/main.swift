@@ -16,21 +16,10 @@ let coreModel = try MLModel(contentsOf: compiledUrl)
 
 print(coreModel.modelDescription)
 
-
-
-//let model = try? s4tf_model(contentsOf: modelUrl)
-let model = s4tf_model()
-
 let multiArr = try! MLMultiArray(shape: [1, 1], dataType: .double)
 multiArr[0] = NSNumber(value: 1.0)
-let input = s4tf_modelInput(dense_input: multiArr)
 
-let prediction = try! model.prediction(input: input)
-
-print(prediction.Identity)
-
-
-class s4tf_modelInput2 : MLFeatureProvider {
+class s4tf_modelInput : MLFeatureProvider {
 
     /// dense_input as 1 by 1 matrix of doubles
     var dense_input: MLMultiArray
@@ -55,8 +44,8 @@ class s4tf_modelInput2 : MLFeatureProvider {
 
 
 
-let input2 = s4tf_modelInput2(dense_input: multiArr)
+let input = s4tf_modelInput(dense_input: multiArr)
 
-let prediction2 = try! coreModel.prediction(from: input2)
+let prediction = try! coreModel.prediction(from: input)
 
-print(prediction2.featureValue(for: "Identity")!.multiArrayValue![0].doubleValue)
+print(prediction.featureValue(for: "Identity")!.multiArrayValue![0].doubleValue)

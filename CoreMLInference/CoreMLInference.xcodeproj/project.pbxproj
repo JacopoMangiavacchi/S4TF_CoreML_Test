@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		EACCF1C623B0423600D61C0E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = EACCF1C523B0423600D61C0E /* main.swift */; };
-		EACCF1CD23B044E700D61C0E /* s4tf_model.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = EACCF1CC23B044E700D61C0E /* s4tf_model.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,7 +25,6 @@
 /* Begin PBXFileReference section */
 		EACCF1C223B0423600D61C0E /* CoreMLInference */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CoreMLInference; sourceTree = BUILT_PRODUCTS_DIR; };
 		EACCF1C523B0423600D61C0E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		EACCF1CC23B044E700D61C0E /* s4tf_model.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = s4tf_model.mlmodel; path = ../../s4tf_model.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +57,6 @@
 		EACCF1C423B0423600D61C0E /* CoreMLInference */ = {
 			isa = PBXGroup;
 			children = (
-				EACCF1CC23B044E700D61C0E /* s4tf_model.mlmodel */,
 				EACCF1C523B0423600D61C0E /* main.swift */,
 			);
 			path = CoreMLInference;
@@ -124,7 +121,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EACCF1C623B0423600D61C0E /* main.swift in Sources */,
-				EACCF1CD23B044E700D61C0E /* s4tf_model.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
