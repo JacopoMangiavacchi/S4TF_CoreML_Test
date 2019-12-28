@@ -1,7 +1,6 @@
 import Foundation
 import TensorFlow
 import SwiftProtobuf
-import CoreML
 
 func generateSampleData(size: Int = 100) -> (Tensor<Float>, Tensor<Float>) {
     let a: Float = 2.0
@@ -127,10 +126,3 @@ let coreMLModel = convertToCoreML(weigths: weight, bias: bias)
 let binaryModelData: Data = try coreMLModel.serializedData()
 let modelUrl = URL(fileURLWithPath: "./s4tf_model.mlmodel")
 try? binaryModelData.write(to: modelUrl)
-
-print("Compile CoreML model")
-let compiledUrl = try MLModel.compileModel(at: modelUrl)
-let coreModel = try MLModel(contentsOf: compiledUrl)
-
-
-
