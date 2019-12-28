@@ -50,7 +50,7 @@ func inferenceCoreML(model: MLModel, x: Float) -> Float {
 }
 
 
-let coreMLFilePath = "/Users/jacopo/S4TF_CoreML_Test/s4tf_model.mlmodel"
+let coreMLFilePath = "/Users/jacopo/S4TF_CoreML_Test/Models/s4tf_model.mlmodel"
 
 print("Compile CoreML model")
 let coreModel = compileCoreML(path: coreMLFilePath)
