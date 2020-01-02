@@ -86,27 +86,27 @@ let coreModel = CoreML_Specification_Model.with {
                     $0.learningRate = CoreML_Specification_DoubleParameter.with {
                         $0.defaultValue = 0.01
                         $0.range = CoreML_Specification_DoubleRange.with {
-                            $0.minValue = 2
+                            $0.maxValue = 1.0
                         }
                     }
                     $0.miniBatchSize = CoreML_Specification_Int64Parameter.with {
                         $0.defaultValue = 5
                         $0.set = CoreML_Specification_Int64Set.with {
-                            $0.values = [2]
+                            $0.values = [5]
                         }
                     }
                     $0.momentum = CoreML_Specification_DoubleParameter.with {
                         $0.defaultValue = 0
                         $0.range = CoreML_Specification_DoubleRange.with {
-                            $0.minValue = 2
+                            $0.maxValue = 1.0
                         }
                     }
                 }
             }
             $0.epochs = CoreML_Specification_Int64Parameter.with {
                 $0.defaultValue = 2
-                $0.range = CoreML_Specification_Int64Range.with {
-                    $0.minValue = 2
+                $0.set = CoreML_Specification_Int64Set.with {
+                    $0.values = [2]
                 }
             }
             $0.shuffle = CoreML_Specification_BoolParameter.with {
