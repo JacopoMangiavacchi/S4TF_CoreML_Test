@@ -93,10 +93,13 @@ func prepareTrainingBatch() -> MLBatchProvider {
 }
 
 func updateModelCompletionHandler(updateContext: MLUpdateContext) {
+    print(updateContext.task.error)
+    
+    let updatedModel = updateContext.model
+    let updatedModelURL = URL(fileURLWithPath: "/Users/jacopo/S4TF_CoreML_Test/Models/s4tf_model_retrained.mlmodel")
+    try! updatedModel.write(to: updatedModelURL)
+    
     print("Model Trained!")
-    // Save the updated model to the file system.
-
-    // Begin using the saved updated model.
 }
 
 func train(url: URL) {
