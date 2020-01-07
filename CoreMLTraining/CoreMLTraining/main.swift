@@ -9,10 +9,12 @@
 import Foundation
 import CoreML
 
-func compileCoreML(path: String) -> MLModel {
+func compileCoreML(path: String) -> (MLModel, URL) {
     let modelUrl = URL(fileURLWithPath: path)
     let compiledUrl = try! MLModel.compileModel(at: modelUrl)
-    return try! MLModel(contentsOf: compiledUrl)
+    
+    print("Compiled Model Path: \(compiledUrl)")
+    return try! (MLModel(contentsOf: compiledUrl), compiledUrl)
 }
 
 func inferenceCoreML(model: MLModel, x: Float) -> Float {
@@ -97,8 +99,8 @@ func updateModelCompletionHandler(updateContext: MLUpdateContext) {
     // Begin using the saved updated model.
 }
 
-func train(path: String) {
-    let updateTask = try! MLUpdateTask(forModelAt: URL(fileURLWithPath: path),
+func train(url: URL) {
+    let updateTask = try! MLUpdateTask(forModelAt: url,
                                        trainingData: prepareTrainingBatch(),
                                        configuration: nil,
                                        completionHandler: updateModelCompletionHandler)
@@ -110,7 +112,7 @@ func train(path: String) {
 let coreMLFilePath = "/Users/jacopo/S4TF_CoreML_Test/Models/s4tf_model_personalization.mlmodel"
 
 print("Compile CoreML model")
-let coreModel = compileCoreML(path: coreMLFilePath)
+let (coreModel, compiledModelUrl) = compileCoreML(path: coreMLFilePath)
 
 print("CoreML model")
 print(coreModel.modelDescription)
@@ -120,7 +122,7 @@ let prediction = inferenceCoreML(model: coreModel, x: 1.0)
 print(prediction)
 
 print("CoreML Start Training")
-train(path: coreMLFilePath)
+train(url: compiledModelUrl)
 
 let _ = readLine()
 
