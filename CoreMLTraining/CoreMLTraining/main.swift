@@ -90,7 +90,21 @@ func prepareTrainingBatch() -> MLBatchProvider {
     return MLArrayBatchProvider(array: featureProviders)
 }
 
+func updateModelCompletionHandler(updateContext: MLUpdateContext) {
+    print("Model Trained!")
+    // Save the updated model to the file system.
 
+    // Begin using the saved updated model.
+}
+
+func train(path: String) {
+    let updateTask = try! MLUpdateTask(forModelAt: URL(fileURLWithPath: path),
+                                       trainingData: prepareTrainingBatch(),
+                                       configuration: nil,
+                                       completionHandler: updateModelCompletionHandler)
+
+    updateTask.resume()
+}
 
 
 let coreMLFilePath = "/Users/jacopo/S4TF_CoreML_Test/Models/s4tf_model_personalization.mlmodel"
@@ -105,7 +119,9 @@ print("CoreML inference")
 let prediction = inferenceCoreML(model: coreModel, x: 1.0)
 print(prediction)
 
-print("CoreML prepare Batch for Training")
-let batch = prepareTrainingBatch()
+print("CoreML Start Training")
+train(path: coreMLFilePath)
+
+let _ = readLine()
 
 print("done!")
