@@ -49,6 +49,49 @@ func inferenceCoreML(model: MLModel, x: Float) -> Float {
     return Float(prediction.featureValue(for: "output")!.multiArrayValue![0].doubleValue)
 }
 
+func generateData(sampleSize: Int = 100) -> ([Float], [Float]) {
+    let a: Float = 2.0
+    let b: Float = 1.5
+    
+    var X = [Float]()
+    var Y = [Float]()
+
+    for i in 0..<sampleSize {
+        let x: Float = Float(i) / Float(sampleSize)
+        let noise: Float = (Float.random(in: 0..<1) - 0.5) * 0.1
+        let y: Float = (a * x + b) + noise
+        X.append(x)
+        Y.append(y)
+    }
+    
+    return (X, Y)
+}
+
+func prepareTrainingBatch() -> MLBatchProvider {
+    var featureProviders = [MLFeatureProvider]()
+
+    let inputName = "dense_input"
+    let outputName = "output_true"
+    
+    let (X, Y) = generateData()
+             
+    for (x,y) in zip(X, Y) {
+        let inputValue = MLFeatureValue(double: Double(x))
+        let outputValue = MLFeatureValue(double: Double(y))
+         
+        let dataPointFeatures: [String: MLFeatureValue] = [inputName: inputValue,
+                                                           outputName: outputValue]
+         
+        if let provider = try? MLDictionaryFeatureProvider(dictionary: dataPointFeatures) {
+            featureProviders.append(provider)
+        }
+    }
+     
+    return MLArrayBatchProvider(array: featureProviders)
+}
+
+
+
 
 let coreMLFilePath = "/Users/jacopo/S4TF_CoreML_Test/Models/s4tf_model_personalization.mlmodel"
 
@@ -62,3 +105,7 @@ print("CoreML inference")
 let prediction = inferenceCoreML(model: coreModel, x: 1.0)
 print(prediction)
 
+print("CoreML prepare Batch for Training")
+let batch = prepareTrainingBatch()
+
+print("done!")
