@@ -78,8 +78,13 @@ func prepareTrainingBatch() -> MLBatchProvider {
     let (X, Y) = generateData()
              
     for (x,y) in zip(X, Y) {
-        let inputValue = MLFeatureValue(double: Double(x))
-        let outputValue = MLFeatureValue(double: Double(y))
+        let multiArr = try! MLMultiArray(shape: [1], dataType: .double)
+
+        multiArr[0] = NSNumber(value: x)
+        let inputValue = MLFeatureValue(multiArray: multiArr)
+
+        multiArr[0] = NSNumber(value: y)
+        let outputValue = MLFeatureValue(multiArray: multiArr)
          
         let dataPointFeatures: [String: MLFeatureValue] = [inputName: inputValue,
                                                            outputName: outputValue]
@@ -93,10 +98,10 @@ func prepareTrainingBatch() -> MLBatchProvider {
 }
 
 func updateModelCompletionHandler(updateContext: MLUpdateContext) {
-    print(updateContext.task.error)
+    print("CoreML Error: \(updateContext.task.error.debugDescription)")
     
     let updatedModel = updateContext.model
-    let updatedModelURL = URL(fileURLWithPath: "/Users/jacopo/S4TF_CoreML_Test/Models/s4tf_model_retrained.mlmodel")
+    let updatedModelURL = URL(fileURLWithPath: "/Users/jacopo/S4TF_CoreML_Test/Models/s4tf_model_retrained.mlmodelc")
     try! updatedModel.write(to: updatedModelURL)
     
     print("Model Trained!")

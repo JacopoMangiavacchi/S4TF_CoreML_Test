@@ -1,0 +1,26 @@
+{
+  "storage" : "model.espresso.weights",
+  "properties" : {
+
+  },
+  "format_version" : 200,
+  "layers" : [
+    {
+      "nB" : 1,
+      "top" : "output",
+      "has_biases" : 1,
+      "weights" : {
+
+      },
+      "nC" : 1,
+      "blob_weights" : 3,
+      "type" : "inner_product",
+      "has_relu" : 0,
+      "bottom" : "dense_input",
+      "blob_biases" : 1,
+      "has_tanh" : 0,
+      "name" : "dense_1",
+      "has_prelu" : 0
+    }
+  ]
+}
