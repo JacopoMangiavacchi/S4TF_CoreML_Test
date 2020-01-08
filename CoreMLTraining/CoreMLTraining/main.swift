@@ -22,35 +22,16 @@ func compileCoreML(path: String) -> (MLModel, URL) {
 }
 
 func inferenceCoreML(model: MLModel, x: Float) -> Float {
-    class s4tf_modelInput : MLFeatureProvider {
-
-        /// dense_input as 1 by 1 matrix of doubles
-        var dense_input: MLMultiArray
-
-        var featureNames: Set<String> {
-            get {
-                return ["dense_input"]
-            }
-        }
-        
-        func featureValue(for featureName: String) -> MLFeatureValue? {
-            if (featureName == "dense_input") {
-                return MLFeatureValue(multiArray: dense_input)
-            }
-            return nil
-        }
-        
-        init(dense_input: MLMultiArray) {
-            self.dense_input = dense_input
-        }
-    }
-
+    let inputName = "dense_input"
+    
     let multiArr = try! MLMultiArray(shape: [1], dataType: .double)
     multiArr[0] = NSNumber(value: x)
 
-    let input = s4tf_modelInput(dense_input: multiArr)
-
-    let prediction = try! model.prediction(from: input)
+    let inputValue = MLFeatureValue(multiArray: multiArr)
+    let dataPointFeatures: [String: MLFeatureValue] = [inputName: inputValue]
+    let provider = try! MLDictionaryFeatureProvider(dictionary: dataPointFeatures)
+    
+    let prediction = try! model.prediction(from: provider)
 
     return Float(prediction.featureValue(for: "output")!.multiArrayValue![0].doubleValue)
 }
