@@ -113,12 +113,12 @@ func updateModelCompletionHandler(updateContext: MLUpdateContext) {
 }
 
 func train(url: URL) {
-    let configuration = MLModelConfiguration()
-    configuration.parameters = [MLParameterKey.epochs : 2]
+//    let configuration = MLModelConfiguration()
+//    configuration.parameters = [MLParameterKey.epochs : 100]
     
     let updateTask = try! MLUpdateTask(forModelAt: url,
                                        trainingData: prepareTrainingBatch(),
-                                       configuration: configuration,
+                                       configuration: nil, //configuration,
                                        completionHandler: updateModelCompletionHandler)
 
     updateTask.resume()
