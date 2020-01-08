@@ -9,6 +9,10 @@
 import Foundation
 import CoreML
 
+let coreMLFilePath = "/Users/jacopo/S4TF_CoreML_Test/Models/s4tf_model_personalization.mlmodel"
+let retrainedCoreMLFilePath = "/Users/jacopo/S4TF_CoreML_Test/Models/s4tf_model_retrained.mlmodelc"
+
+
 func compileCoreML(path: String) -> (MLModel, URL) {
     let modelUrl = URL(fileURLWithPath: path)
     let compiledUrl = try! MLModel.compileModel(at: modelUrl)
@@ -101,23 +105,26 @@ func updateModelCompletionHandler(updateContext: MLUpdateContext) {
     print("CoreML Error: \(updateContext.task.error.debugDescription)")
     
     let updatedModel = updateContext.model
-    let updatedModelURL = URL(fileURLWithPath: "/Users/jacopo/S4TF_CoreML_Test/Models/s4tf_model_retrained.mlmodelc")
+    let updatedModelURL = URL(fileURLWithPath: retrainedCoreMLFilePath)
     try! updatedModel.write(to: updatedModelURL)
     
     print("Model Trained!")
+    print("Press return to continue..")
 }
 
 func train(url: URL) {
+    let configuration = MLModelConfiguration()
+    configuration.parameters = [MLParameterKey.epochs : 2]
+    
     let updateTask = try! MLUpdateTask(forModelAt: url,
                                        trainingData: prepareTrainingBatch(),
-                                       configuration: nil,
+                                       configuration: configuration,
                                        completionHandler: updateModelCompletionHandler)
 
     updateTask.resume()
 }
 
 
-let coreMLFilePath = "/Users/jacopo/S4TF_CoreML_Test/Models/s4tf_model_personalization.mlmodel"
 
 print("Compile CoreML model")
 let (coreModel, compiledModelUrl) = compileCoreML(path: coreMLFilePath)
@@ -133,5 +140,13 @@ print("CoreML Start Training")
 train(url: compiledModelUrl)
 
 let _ = readLine()
+
+print("Load CoreML Retrained Model")
+let retrainedModel = try! MLModel(contentsOf: URL(fileURLWithPath: retrainedCoreMLFilePath))
+
+print("CoreML inference")
+let prediction2 = inferenceCoreML(model: retrainedModel, x: 1.0)
+print(prediction2)
+
 
 print("done!")
